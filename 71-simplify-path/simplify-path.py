@@ -1,16 +1,20 @@
 class Solution(object):
     def simplifyPath(self, path):
         stack = []
+        cur = ""
 
-        parts = path.split("/")
+        for c in path + "/":
+            if c == "/":
+                if cur == "..":
+                    if stack:
+                        stack.pop()
 
-        for part in parts:
-            if part == "" or part == ".":
-                continue
-            elif part == "..":
-                if stack:
-                    stack.pop()
+                elif cur != "" and cur != ".":
+                    stack.append(cur)
+
+                cur = ""
+
             else:
-                stack.append(part)
+                cur += c
 
         return "/" + "/".join(stack)
